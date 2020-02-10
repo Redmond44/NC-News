@@ -6,7 +6,7 @@ exports.up = function (knex) {
     articlesTable.increments('article_id').primary();
     articlesTable.string('title').notNullable();
     articlesTable.string('body');
-    articlesTable.integer('votes').defaultValue(0);
+    articlesTable.integer('votes').defaultTo(0);
     articlesTable.integer('slug').references('topics.slug');
     articlesTable.integer('author').references('users.username');
     articlesTable.timestamp('created_at').defaultTo(knex.fn.now())
@@ -16,8 +16,9 @@ exports.up = function (knex) {
 
 
 
-//     wizardsTable.integer('house_id').references('houses.house_id');
+
 
 exports.down = function (knex) {
-
+  return knex.schema
+    .dropTable("articles")
 };
