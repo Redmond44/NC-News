@@ -44,12 +44,52 @@ describe('formatDates', () => {
 });
 
 describe('makeRefObj', () => {
-  it('', () => {
-    const obj = {};
-    expect(makeRefObj(obj)).to.eql()
+  it('When array contains "article_id" & "title", make "title" the key and "article_id" the value', () => {
+    const list = [{ article_id: 1, title: 'A' }]
+    expect(makeRefObj(list)).to.eql([{ A: 1 }])
+  })
+  it('will work for multiple items', () => {
+    const list = [{ article_id: 1, title: 'A' }, { article_id: 2, title: 'B' }, { article_id: 3, title: 'C' }]
+    expect(makeRefObj(list)).to.eql([{ A: 1 }, { B: 2 }, { C: 3 }])
   })
 });
 
-describe('formatComments', () => { });
+describe.only('formatComments', () => {
+  it('Returns a new empty array when passed an empty array', () => {
+    const comments = []
+    const articleRef = []
+
+    expect(formatComments(comments, articleRef)).to.eql([])
+  })
+  it('Will rename the created_by key to Author', () => {
+    const comments = [{
+      body:
+        "Oh, I've got compassion running out of my nose, pal! I'm the Sultan of Sentiment!",
+      belongs_to: "They're not exactly dogs, are they?",
+      created_by: 'butter_bridge',
+      votes: 16,
+      created_at: 1511354163389
+    }]
+    const articleRef = {
+      createdBy: 'Author'
+    }
+    expect(formatComments(comments, articleRef)).to.eql([{
+      body:
+        "Oh, I've got compassion running out of my nose, pal! I'm the Sultan of Sentiment!",
+      belongs_to: "They're not exactly dogs, are they?",
+      author: 'butter_bridge',
+      votes: 16,
+      author: 1511354163389
+    }])
+  });
+});
 
 
+// [{
+//   body:
+//     "Oh, I've got compassion running out of my nose, pal! I'm the Sultan of Sentiment!",
+//   belongs_to: "They're not exactly dogs, are they?",
+//   created_by: 'butter_bridge',
+//   votes: 16,
+//   created_at: 1511354163389,
+// }]

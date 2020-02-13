@@ -9,9 +9,25 @@ exports.formatDates = list => {
 };
 
 exports.makeRefObj = list => {
-
-
+  return list.map(listA => {
+    let newObj = {}
+    newObj[listA.title] = listA.article_id
+    return newObj
+  })
 
 };
 
-exports.formatComments = (comments, articleRef) => { };
+exports.formatComments = (comments, articleRef) => {
+  if (comments.length === 0) return []
+
+  comments.articleRef = comments.created_at
+
+  console.log(comments)
+}
+
+
+
+
+
+
+
